@@ -696,34 +696,40 @@
         function displayResults(data) {
             const resultsContainer = document.getElementById('resultsContainer');
             
-            if (!data || !data[0] || !data[0].contacts) {
+            console.log('📊 Estrutura completa dos dados recebidos:', data);
+            
+            // CORREÇÃO: A resposta vem diretamente com contacts, não dentro de data[0]
+            const contacts = data.contacts || [];
+            const total_contacts = data.total_contacts || contacts.length;
+            const contacts_with_emails = data.contacts_with_emails || contacts.length;
+            
+            if (contacts.length === 0) {
                 resultsContainer.innerHTML = `
                     <div class="error">
                         ❌ Nenhum resultado encontrado com os critérios especificados
                         <br><br>
-                        <small>Verifique os critérios de busca e tente novamente</small>
+                        <small>Estrutura recebida: ${JSON.stringify(data).substring(0, 200)}...</small>
                     </div>
                 `;
                 return;
             }
-
-            const result = data[0];
-            const contacts = result.contacts || [];
-            
+        
             resultsContainer.innerHTML = `
                 <div class="success">
                     ✅ Busca realizada com sucesso!
                     <br>
                     <small>Tempo total: ${Math.floor((Date.now() - startTime) / 1000)} segundos</small>
+                    <br>
+                    <small>Encontrados: ${contacts.length} contatos</small>
                 </div>
                 
                 <div class="stats">
                     <div class="stat-item">
-                        <div class="stat-number">${result.total_contacts || contacts.length}</div>
+                        <div class="stat-number">${total_contacts}</div>
                         <div class="stat-label">Total de Contatos</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number">${result.contacts_with_emails || contacts.length}</div>
+                        <div class="stat-number">${contacts_with_emails}</div>
                         <div class="stat-label">Com E-mails</div>
                     </div>
                     <div class="stat-item">
@@ -745,6 +751,7 @@
                             ${contact.email ? `<a href="mailto:${contact.email}" class="contact-email">📧 ${contact.email}</a>` : ''}
                             ${contact.linkedin_url ? `<a href="${contact.linkedin_url}" target="_blank" class="contact-linkedin">🔗 LinkedIn</a>` : ''}
                             ${contact.company_domain ? `<div style="margin-top: 5px; font-size: 12px; color: #7f8c8d;">🌐 ${contact.company_domain}</div>` : ''}
+                            ${contact._enrichment_success ? `<div style="margin-top: 5px; font-size: 10px; color: #27ae60;">✅ Enriquecimento bem-sucedido</div>` : ''}
                         </div>
                     `).join('')}
                 </div>
