@@ -299,15 +299,9 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="role">Cargo:</label>
-                            <select id="role" name="role" required>
-                                <option value="CEO">CEO</option>
-                                <option value="CTO">CTO</option>
-                                <option value="CFO">CFO</option>
-                                <option value="COO">COO</option>
-                                <option value="Director">Diretor</option>
-                                <option value="Manager">Gerente</option>
-                                <option value="VP">Vice-Presidente</option>
-                            </select>
+                            <!-- Alterado de select para input -->
+                            <input type="text" id="role" name="role" 
+                                   placeholder="Ex: CEO, CTO, Gerente, Diretor" required>
                         </div>
 
                         <div class="form-group">
