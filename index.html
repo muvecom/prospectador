@@ -287,7 +287,7 @@
     <div class="container">
         <div class="header">
             <h1>Muvecom - Prospectador</h1>
-            <p>Encontre profissionais baseado em cargo, segmento e tamanho da empresa</p>
+            <p>Encontre profissionais baseado em cargo, tipo de empresa e tamanho da empresa</p>
         </div>
 
         <div class="content">
@@ -311,10 +311,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="industry_includes">Segmento:</label>
-                            <input type="text" id="industry_includes" name="industry_includes" 
-                                   placeholder="Ex: Technology, Healthcare, Finance">
-                            <div class="info-text">Deixe em branco para buscar em todos os segmentos</div>
+                            <label for="organization_types">Tipo de Empresa:</label>
+                            <input type="text" id="organization_types" name="organization_types" 
+                                   placeholder="Ex: Private, Public, Educational">
+                            <div class="info-text">Deixe em branco para buscar em todos os tipos</div>
                         </div>
 
                         <div class="form-group">
@@ -384,19 +384,19 @@
             resultsContainer.innerHTML = '<div style="text-align: center; padding: 20px;">Carregando...</div>';
             
             try {
-                // Preparar dados para envio - CORREÇÃO AQUI
-                const industryValue = document.getElementById('industry_includes').value.trim();
+                // Preparar dados para envio
+                const organizationTypesValue = document.getElementById('organization_types').value.trim();
                 
                 const requestData = {
                     mode: "by_segment",
                     role: document.getElementById('role').value.trim(),
                     seniority_levels: [],
                     employees_min: parseInt(document.getElementById('employees_min').value),
-                    employees_max: 10000, // Valor alto padrão
+                    employees_max: 10000,
                     countries: ["Brazil"],
                     cities: [],
-                    // CORREÇÃO: Só inclui industry_includes se não estiver vazio
-                    ...(industryValue && { industry_includes: [industryValue] })
+                    // Substitui industry_includes por organization_types
+                    organization_types: organizationTypesValue ? [organizationTypesValue] : []
                 };
 
                 // Debug do que está sendo enviado
@@ -434,8 +434,6 @@
                 resultsContainer.innerHTML = `
                     <div class="error">
                         ❌ Erro na busca: ${error.message}
-                        ${error.message.includes('industry_includes') ? 
-                          '<br><small>Problema com o campo segmento. Tente deixar em branco.</small>' : ''}
                     </div>
                 `;
             } finally {
@@ -453,7 +451,6 @@
                 resultsContainer.innerHTML = `
                     <div class="error">
                         ❌ Nenhum resultado encontrado com os critérios especificados
-                        <br><small>Tente ajustar os filtros ou deixar o segmento em branco</small>
                     </div>
                 `;
                 return;
