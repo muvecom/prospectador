@@ -1,1 +1,1 @@
-Demo do prospectador de perfis da Muvecom.
+Demo do prospectador de perfis do LinkedIn, da Muvecom.
