@@ -391,10 +391,6 @@
                     organization_types: organizationTypesValue ? [organizationTypesValue] : []
                 };
 
-                // Debug do que está sendo enviado
-                const debugMessage = `📤 DADOS ENVIADOS:\n\n${JSON.stringify(requestData, null, 2)}`;
-                updateDebugInfo(debugMessage);
-
                 console.log('Enviando para API:', requestData);
                 
                 // Fazer requisição POST
@@ -411,10 +407,6 @@
                 }
                 
                 const responseData = await response.json();
-                
-                // Debug completo
-                const finalDebug = `${debugMessage}\n\n✅ RESPOSTA:\n${JSON.stringify(responseData, null, 2)}`;
-                updateDebugInfo(finalDebug);
 
                 console.log('Dados recebidos:', responseData);
                 
